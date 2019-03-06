@@ -44,7 +44,7 @@ spec:
     # Services in Kubernetes expose their endpoint using a common DNS pattern.
     # It looks like: <Service Name>.<Namespace Name>.svc.cluster.local
     # if not a FQDN then Istio assumes default namespace
-    - "{{ .Values.service.name }}.{{ .Values.service.namespace }}.svc.cluster.local"
+    - "*"
   http:
   - route:
     - destination:
