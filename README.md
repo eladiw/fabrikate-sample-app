@@ -32,3 +32,6 @@ config:
 This repository is linked to a manifest repository that has the output YAML 
 * [GitHub version](https://github.com/andrebriggs/sample_app_manifests)
 * [Az DevOps version](https://dev.azure.com/abrig/bedrock_gitops/_git/sample_app_manifests?path=%2F&version=GBmaster)
+
+## Deploying to Cluster
+Make sure to apply [jackson-secrets](https://github.com/CatalystCode/kubemalt/tree/master/demo#create-and-deploy-kube-pod-with-secrets-keyvault-tbd) to your cluster.
