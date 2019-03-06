@@ -5,9 +5,6 @@ config:
       labelName: jackson
   fullnameOverride: spring-boot-ui
   appName: spring-boot-ui
-  image:
-    repository: mtarng/jackson-ui
-    tag: v1.0
   enableVirtualService: false
   enableDestinationRule: false
 # subcomponents:

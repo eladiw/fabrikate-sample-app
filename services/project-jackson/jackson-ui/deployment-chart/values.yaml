@@ -5,8 +5,8 @@
 replicaCount: 3
 
 image:
-  repository: andrebriggs/ui-jackson
-  tag: v1
+  # repository: andrebriggs/ui-jackson
+  # tag: v1
   pullPolicy: Always
 
 nameOverride: ""
