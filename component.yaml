@@ -6,5 +6,5 @@ subcomponents:
   source: "./services"
 - name: "cloud-native"
   source: "https://github.com/timfpark/fabrikate-cloud-native"
-  branch: "enable_kiali"
+  branch: "master"
   method: "git"
