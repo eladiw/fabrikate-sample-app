@@ -1,6 +1,0 @@
-config:
-  image:
-    repository: mtarng/jackson-api
-    tag: v1.0
-  replicas: 1
-  version: stable

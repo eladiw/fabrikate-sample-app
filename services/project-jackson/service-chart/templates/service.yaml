@@ -1,65 +1,118 @@
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: {{ .Values.service.name }}
+#   labels:
+#     app: {{ .Values.service.labelName }}
+# spec:
+#   selector:
+#     app: {{ .Values.appName }} # Deployment name tag
+#   ports:
+#   - name: http
+#     port: {{ .Values.service.port }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.service.name }}
-  labels:
-    app: {{ .Values.service.labelName }}
+  name: 'api-poi-svc-prod'
 spec:
+  type: ClusterIP
   selector:
-    app: {{ .Values.appName }} # Deployment name tag
+    app: {{ .Values.image.label }}
+    slot: {{ .Values.productionSlot }}
   ports:
-  - name: http
-    port: {{ .Values.service.port }}
-
-{{- if .Values.enableDestinationRule }}
+    - protocol: TCP
+      name: {{ .Values.image.name }}http
+      port: {{ .Values.service.externalPort }}
+      targetPort: {{ .Values.image.containerPort }}
+    - protocol: TCP
+      name: {{ .Values.image.name }}https
+      port: 443
+      targetPort: 443
+{{- if .Values.ingress.enabled -}}
 ---
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
+{{- $serviceName := include "chart.fullname" . -}}
+{{- $servicePort := .Values.service.externalPort -}}
+{{- $path := .Values.ingress.path -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
-  name: {{ .Values.service.name }}
+  name: {{ template "chart.fullname" . }}-prod
   labels:
-    app: {{ .Values.service.labelName }}
+    app: {{ template "chart.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    {{- range $key, $value := .Values.ingress.annotations }}
+      {{ $key }}: {{ $value | quote }}
+    {{- end }}
 spec:
-  host: "{{ .Values.service.name }}.{{ .Values.service.namespace }}.svc.cluster.local"
-  subsets:
-  - name: stable
-    labels:
-      version: stable
-  - name: canary
-    labels:
-      version: canary
-{{- end }}
+  rules:
+    {{- range $key, $value := .Values.ingress.rules }}
+    - host: {{ $value.host }}
+      http:
+        paths:
+        {{- range $path := .paths }}
+          - path: {{ $path.path }}
+            backend:
+              serviceName: {{ $path.serviceName }}-prod
+              servicePort: {{ $path.servicePort }}
+        {{- end -}}
+    {{- end -}}
+  {{- if .Values.ingress.tls }}
+  tls:
+{{ toYaml .Values.ingress.tls | indent 4 }}
+  {{- end -}}
+{{- end -}}
+# {{- if .Values.enableDestinationRule }}
+# ---
+# apiVersion: networking.istio.io/v1alpha3
+# kind: DestinationRule
+# metadata:
+#   name: {{ .Values.service.name }}
+#   labels:
+#     app: {{ .Values.service.labelName }}
+# spec:
+#   host: "{{ .Values.service.name }}.{{ .Values.service.namespace }}.svc.cluster.local"
+#   subsets:
+#   - name: stable
+#     labels:
+#       version: stable
+#   - name: canary
+#     labels:
+#       version: canary
+# {{- end }}
 
-{{- if .Values.enableVirtualService }}
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: {{ .Values.service.name }}
-spec:
-    # https://istio.io/docs/reference/config/istio.networking.v1alpha3/#VirtualService
-  gateways: # The default `mesh` value for when left blank is doesn't seem to propigate the rule properly. For now, always use a list of FQDN gateways
-    - jackson-gateway # must be FQDN if VirtualService in different NS than Gateway
-  hosts:
-    # Services in Kubernetes expose their endpoint using a common DNS pattern.
-    # It looks like: <Service Name>.<Namespace Name>.svc.cluster.local
-    # if not a FQDN then Istio assumes default namespace
-    - "*"
-  http:
-  - match:
-      - uri:
-          prefix: /api
-    route:
-    - destination:
-        host: "{{ .Values.service.name }}.{{ .Values.service.namespace }}.svc.cluster.local"
-        subset: stable
-        port:
-          number: {{ .Values.service.port }}
-      weight: {{ .Values.service.stableWeight}}
-    - destination:
-        host: "{{ .Values.service.name }}.{{ .Values.service.namespace }}.svc.cluster.local"
-        subset: canary
-        port:
-          number: {{ .Values.service.port }}
-      weight: {{ .Values.service.canaryWeight}}
-{{- end }}
+# {{- if .Values.enableVirtualService }}
+# ---
+# apiVersion: networking.istio.io/v1alpha3
+# kind: VirtualService
+# metadata:
+#   name: {{ .Values.service.name }}
+# spec:
+#     # https://istio.io/docs/reference/config/istio.networking.v1alpha3/#VirtualService
+#   gateways: # The default `mesh` value for when left blank is doesn't seem to propigate the rule properly. For now, always use a list of FQDN gateways
+#     - jackson-gateway # must be FQDN if VirtualService in different NS than Gateway
+#   hosts:
+#     # Services in Kubernetes expose their endpoint using a common DNS pattern.
+#     # It looks like: <Service Name>.<Namespace Name>.svc.cluster.local
+#     # if not a FQDN then Istio assumes default namespace
+#     - "*"
+#   http:
+#   - match:
+#       - uri:
+#           prefix: /api
+#     route:
+#     - destination:
+#         host: "{{ .Values.service.name }}.{{ .Values.service.namespace }}.svc.cluster.local"
+#         subset: stable
+#         port:
+#           number: {{ .Values.service.port }}
+#       weight: {{ .Values.service.stableWeight}}
+#     - destination:
+#         host: "{{ .Values.service.name }}.{{ .Values.service.namespace }}.svc.cluster.local"
+#         subset: canary
+#         port:
+#           number: {{ .Values.service.port }}
+#       weight: {{ .Values.service.canaryWeight}}
+# {{- end }}

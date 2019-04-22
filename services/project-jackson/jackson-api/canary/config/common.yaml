@@ -1,6 +1,0 @@
-config:
-  image:
-    repository: mtarng/jackson-api
-    tag: v1.1-peoplehobby
-  replicas: 1
-  version: canary

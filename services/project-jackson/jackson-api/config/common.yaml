@@ -1,14 +1,54 @@
 config:
+  productionSlot: blue
+  blue:
+    enabled: true
+    tag: latest
+  green:
+    enabled: false
+    tag: latest
   service:
       name: jackson-api
       namespace: default #Should share the namespace name one level above
-      port: 8080
+      externalPort: 80
       labelName: jackson
-      canaryWeight: 10
-      stableWeight: 90
+  image:
+    label:
+    containerPort: 8080
   appName: spring-boot-api
-  enableVirtualService: true
-  enableDestinationRule: true
+  ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: traefik
+  rules:
+    endpoint:
+      #fqdn of your exposed application (found in ohteamvalues file)
+      host:
+      paths:
+      - path: /api
+        serviceName: jackson-api
+        servicePort: 80
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #  cpu: 100m
+    #  memory: 128Mi
+    # requests:
+    #  cpu: 100m
+    #  memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
 subcomponents:
   canary:
     config:

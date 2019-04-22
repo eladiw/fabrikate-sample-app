@@ -1,3 +1,0 @@
-name: "canary"
-generator: "helm"
-path: "../deployment-chart"
