@@ -1,20 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.fullnameOverride }}
+  name: {{ .Values.label.appName }}-{{ .Values.deploymentSlot }}
   labels:
-    app: {{ .Values.appName }}
+    app: {{ .Values.label.appName }}
+    deploymentSlot: {{ .Values.label.deploymentSlot }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.appName }}
+      app: {{ .Values.label.appName }}
+      deploymentSlot: {{ .Values.label.deploymentSlot }}
   replicas: {{ .Values.replicaCount }}
   strategy:
     type: RollingUpdate #Parameterize?
   template:
     metadata:
       labels:
-        app: {{ .Values.appName }}
+        app: {{ .Values.label.appName }}
+        deploymentSlot: {{ .Values.label.deploymentSlot }}
         version: {{ .Values.version }}
       annotations:
         prometheus.io/path: '/api/actuator/prometheus'

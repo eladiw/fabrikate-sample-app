@@ -9,10 +9,10 @@ image:
   tag: v1
   pullPolicy: Always
 
-nameOverride: ""
-# fullnameOverride: spring-boot-api
-# appName: spring-boot-api
-abstractName: jackson
+label:
+  appName: spring-boot-api
+  deploymentSlot: blue
+  abstractName: jackson
 
 service:
   type: LoadBalancer
