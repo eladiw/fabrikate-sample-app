@@ -4,3 +4,4 @@ config:
     tag: v1.1-peoplehobby
   replicas: 1
   version: canary
+  labels.deploymentSlot: "blue"

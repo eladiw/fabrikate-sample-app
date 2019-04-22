@@ -4,3 +4,4 @@ config:
     tag: v1.0
   replicas: 1
   version: stable
+  labels.deploymentSlot: "green"

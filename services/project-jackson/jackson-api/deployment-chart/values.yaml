@@ -11,7 +11,7 @@ image:
 
 label:
   appName: spring-boot-api
-  deploymentSlot: blue
+  deploymentSlot: none
   abstractName: jackson
 
 service:
