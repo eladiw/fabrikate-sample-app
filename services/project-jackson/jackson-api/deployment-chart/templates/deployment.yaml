@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.label.appName }}-{{ .Values.deploymentSlot }}
+  name: "{{ .Values.label.appName }}-{{ .Values.label.deploymentSlot }}"
   labels:
     app: {{ .Values.label.appName }}
     deploymentSlot: {{ .Values.label.deploymentSlot }}
