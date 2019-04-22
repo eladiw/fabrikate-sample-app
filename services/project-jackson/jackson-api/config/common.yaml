@@ -16,21 +16,21 @@ config:
     containerPort: 8080
   appName: spring-boot-api
   ingress:
-  enabled: true
-  annotations:
-    kubernetes.io/ingress.class: traefik
-  rules:
-    endpoint:
-      #fqdn of your exposed application (found in ohteamvalues file)
-      host:
-      paths:
-      - path: /api
-        serviceName: jackson-api
-        servicePort: 80
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: traefik
+    rules:
+      endpoint:
+        #fqdn of your exposed application (found in ohteamvalues file)
+        host:
+        paths:
+        - path: /api
+          serviceName: jackson-api
+          servicePort: 80
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
 
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious

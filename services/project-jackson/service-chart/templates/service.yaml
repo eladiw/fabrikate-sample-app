@@ -30,13 +30,13 @@ spec:
       targetPort: 443
 {{- if .Values.ingress.enabled -}}
 ---
-{{- $serviceName := include "chart.fullname" . -}}
+{{- $serviceName := .Values.service.name -}}
 {{- $servicePort := .Values.service.externalPort -}}
 {{- $path := .Values.ingress.path -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ template "chart.fullname" . }}-prod
+  name: {{ .Values.service.name }}-prod
   labels:
     app: {{ template "chart.name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
