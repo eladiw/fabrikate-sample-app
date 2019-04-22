@@ -1,5 +1,6 @@
 trigger:
 - master
+- istio-bg
 
 pool:
   vmImage: 'Ubuntu-16.04'
@@ -33,3 +34,4 @@ steps:
     ACCESS_TOKEN_SECRET: $(ACCESS_TOKEN)
     COMMIT_MESSAGE: $(Build.SourceVersionMessage)
     REPO: $(MANIFEST_REPO)
+    BRANCH_NAME: $(Build.SourceBranchName)
