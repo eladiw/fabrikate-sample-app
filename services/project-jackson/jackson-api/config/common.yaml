@@ -7,12 +7,12 @@ config:
     enabled: false
     tag: latest
   service:
-      name: jackson-api
-      namespace: default #Should share the namespace name one level above
-      externalPort: 80
-      labelName: jackson
+    name: jackson-api
+    namespace: default #Should share the namespace name one level above
+    externalPort: 80
+    labelName: jackson
   image:
-    label:
+    label: jackson-api
     containerPort: 8080
   appName: spring-boot-api
   ingress:
