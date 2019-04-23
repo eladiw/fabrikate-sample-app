@@ -3,13 +3,15 @@ config:
   blue:
     enabled: true
     tag: latest
+    
   green:
     enabled: false
     tag: latest
+
   service:
     name: jackson-api
     namespace: default #Should share the namespace name one level above
-    externalPort: 80
+    port: 80
     labelName: jackson
   image:
     label: jackson-api
@@ -50,7 +52,7 @@ config:
 
   affinity: {}
 subcomponents:
-  canary:
+  blue:
     config:
       appName: spring-boot-api
       fullnameOverride: api-deploy-canary

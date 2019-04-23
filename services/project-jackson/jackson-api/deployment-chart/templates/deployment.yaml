@@ -22,7 +22,7 @@ spec:
         prometheus.io/scrape: 'true'
     spec:
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Values.service.name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:

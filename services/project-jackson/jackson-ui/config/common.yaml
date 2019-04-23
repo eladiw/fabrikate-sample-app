@@ -7,6 +7,10 @@ config:
   appName: spring-boot-ui
   enableVirtualService: false
   enableDestinationRule: false
+  image:
+    label: jackson-api
+  ingress:
+    enabled: false
 # subcomponents:
 #   canary:
 #     config:

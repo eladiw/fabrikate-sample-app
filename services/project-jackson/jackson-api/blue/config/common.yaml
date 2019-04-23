@@ -1,6 +1,6 @@
 config:
-  repository:
-    image: mtarng/jackson-api
+  image:
+    repository: mtarng/jackson-api
     tag: latest
   replicas: 1
   version: blue
