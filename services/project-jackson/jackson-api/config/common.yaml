@@ -24,7 +24,7 @@ config:
     rules:
       endpoint:
         #fqdn of your exposed application (found in ohteamvalues file)
-        host:
+        host: dbluegreen.westus2.cloudapp.azure.com
         paths:
         - path: /api
           serviceName: jackson-api
