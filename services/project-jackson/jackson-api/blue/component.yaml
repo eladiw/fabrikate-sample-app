@@ -1,3 +1,0 @@
-name: "blue"
-generator: "helm"
-path: "../deployment-chart"

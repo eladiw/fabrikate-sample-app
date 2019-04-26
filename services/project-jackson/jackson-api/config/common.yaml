@@ -3,7 +3,7 @@ config:
   blue:
     enabled: true
     tag: latest
-    
+
   green:
     enabled: false
     tag: latest
@@ -13,6 +13,12 @@ config:
     namespace: default #Should share the namespace name one level above
     port: 80
     labelName: jackson
+  repository:
+    # Fully qualified path to image in ACR (Ex. youracr.azureacr.io/devopsoh/poi-build).
+    # See deployment scripts in https://github.com/Azure-Samples/openhack-devops-proctor for example usage.
+    image:
+    tag: latest
+    pullPolicy: Always
   image:
     label: jackson-api
     containerPort: 8080
@@ -26,8 +32,8 @@ config:
         #fqdn of your exposed application (found in ohteamvalues file)
         host: dbluegreen.westus2.cloudapp.azure.com
         paths:
-        - path: /api
-          serviceName: jackson-api
+        - pathPrefix: /api
+          serviceName: spring-boot-api
           servicePort: 80
     tls: []
     #  - secretName: chart-example-tls

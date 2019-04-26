@@ -1,7 +1,8 @@
+{{ if .Values.blue.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.fullnameOverride }}
+  name: "{{ .Values.image.label }}-deploy-blue"
   labels:
     app: {{ .Values.appName }}
 spec:
@@ -15,7 +16,7 @@ spec:
     metadata:
       labels:
         app: {{ .Values.appName }}
-        version: {{ .Values.version }}
+        slot: blue
       annotations:
         prometheus.io/path: '/api/actuator/prometheus'
         prometheus.io/port: '8080'
@@ -23,7 +24,7 @@ spec:
     spec:
       containers:
         - name: {{ .Values.service.name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.repository.image }}:{{ .Values.blue.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -62,3 +63,4 @@ spec:
             value: {{ .Values.jaegerAgentHost | quote}}
           - name: JAEGER_AGENT_PORT
             value: {{ .Values.jaegerAgentPort | quote }}
+{{ end }}

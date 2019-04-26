@@ -1,25 +1,15 @@
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: {{ .Values.service.name }}
-#   labels:
-#     app: {{ .Values.service.labelName }}
-# spec:
-#   selector:
-#     app: {{ .Values.appName }} # Deployment name tag
-#   ports:
-#   - name: http
-#     port: {{ .Values.service.port }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: jackson-api-prod
+  name: {{ .Values.appName }}-svc-stage
 spec:
   type: ClusterIP
   selector:
-    app: {{ .Values.image.label }}
-    {{- if .Values.productionSlot }}
-    slot: {{ .Values.productionSlot }}
+    app: {{ .Values.appName }}
+    {{- if eq .Values.productionSlot "blue" }}
+    slot: green
+    {{- else }}
+    slot: blue
     {{- end }}
   ports:
     - protocol: TCP
@@ -31,7 +21,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ .Values.service.name }}-prod
+  name: {{ .Values.service.name }}-stage
   labels:
     app: {{ .Values.service.name }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -44,13 +34,13 @@ metadata:
 spec:
   rules:
     {{- range $key, $value := .Values.ingress.rules }}
-    - host: {{ $value.host }}
+    - host: stage{{ $value.host }}
       http:
         paths:
         {{- range $path := .paths }}
-          - path: {{ $path.path }}
+          - pathPrefix: {{ $path.pathPrefix }}
             backend:
-              serviceName: {{ $path.serviceName }}-prod
+              serviceName: {{ $path.serviceName }}-stage
               servicePort: {{ $path.servicePort }}
         {{- end -}}
     {{- end -}}

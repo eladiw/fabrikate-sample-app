@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.appName }}-svc-prod
+spec:
+  type: ClusterIP
+  selector:
+    app: {{ .Values.image.label }}
+    slot: {{ .Values.productionSlot }}
+  ports:
+    - protocol: TCP
+      name: http
+      port: {{ .Values.service.port }}
+
+{{- if .Values.ingress.enabled }}
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.service.name }}-prod
+  labels:
+    app: {{ .Values.service.name }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    {{- range $key, $value := .Values.ingress.annotations }}
+      {{ $key }}: {{ $value | quote }}
+    {{- end }}
+spec:
+  rules:
+    {{- range $key, $value := .Values.ingress.rules }}
+    - host: {{ $value.host }}
+      http:
+        paths:
+        {{- range $path := .paths }}
+          - pathPrefix: {{ $path.pathPrefix }}
+            backend:
+              serviceName: {{ $path.serviceName }}-svc-prod
+              servicePort: {{ $path.servicePort }}
+        {{- end -}}
+    {{- end -}}
+  {{- if .Values.ingress.tls }}
+  tls:
+{{ toYaml .Values.ingress.tls | indent 4 }}
+  {{- end }}
+{{- end }}
