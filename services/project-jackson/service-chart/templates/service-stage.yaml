@@ -40,7 +40,7 @@ spec:
         {{- range $path := .paths }}
           - pathPrefix: {{ $path.pathPrefix }}
             backend:
-              serviceName: {{ $path.serviceName }}-stage
+              serviceName: {{ $path.serviceName }}-svc-stage
               servicePort: {{ $path.servicePort }}
         {{- end -}}
     {{- end -}}
