@@ -30,7 +30,7 @@ config:
     rules:
       endpoint:
         #fqdn of your exposed application (found in ohteamvalues file)
-        host: dbluegreen.westus2.cloudapp.azure.com
+        host: edbluegreen.westus2.cloudapp.azure.com
         paths:
         - pathPrefix: /api
           serviceName: spring-boot-api
