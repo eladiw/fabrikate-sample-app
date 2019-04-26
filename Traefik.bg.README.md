@@ -5,8 +5,8 @@ Using [Traefik](https://traefik.io/) along with [Fabrikate](https://github.com/m
 The following instructions have been tested with an [AKS Cluster](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough) but should work with another cloud provider with minor adjustments.
 
 ### Requirements
--AKS Cluster
--[Traefik Fabrikate](https://github.com/evanlouie/fabrikate-traefik) component
+- AKS Cluster
+- [Traefik Fabrikate](https://github.com/evanlouie/fabrikate-traefik) component
 
 ### Traefik Fabrikate Component
 In the `common.yaml` file add a domain to the dashboard and a service annotation.
