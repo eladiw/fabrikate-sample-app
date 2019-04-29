@@ -10,14 +10,14 @@ The following instructions have been tested with an [AKS Cluster](https://docs.m
 
 ### Traefik Fabrikate Component
 In the `common.yaml` file add a domain to the dashboard and a service annotation.
-Use the `service.beta.kubernetes.io/azure-dns-label-name` label. In the `<name>` placeholder specify your own name for example `stagingendpoint`, making the full domain `stagingendpoint.cloudapp.azure.com`.
+Use the `service.beta.kubernetes.io/azure-dns-label-name` label. In the `<name>` placeholder specify your own name for example `stagingendpoint`. In `<azure-region>` specify your Azure region, for example `westus2`. The full domain will look something like this:`stagingendpoint.westus2cloudapp.azure.com`.
 
 ```
 config:
   namespace: traefik
   dashboard:
     enabled: true
-    domain: <name>.cloudapp.azure.com
+    domain: <name>.<azure-region>cloudapp.azure.com
   service:
     annotations: 
       service.beta.kubernetes.io/azure-dns-label-name: <name>
@@ -25,6 +25,9 @@ config:
     enabled: true
 subcomponents:
 ```
+
+After deploying the component, go to the endpoint `http://<name>.<azure-region>.cloudapp.azure.com/api` to access the API.
+
 
 
 
