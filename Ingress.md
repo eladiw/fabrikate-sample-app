@@ -79,4 +79,4 @@ One caveat about the current deisgn is that that the "blue" (existing) or the st
 # Links
 
 + [Traefik Blue/Green Implementation](https://github.com/andrebriggs/fabrikate-sample-app/blob/traefik_bg/Traefik.bg.README.md)
-+ [Istion Blug/Green Implementation](https://github.com/andrebriggs/fabrikate-sample-app/pull/9)
++ [Istio Blug/Green Implementation](https://github.com/andrebriggs/fabrikate-sample-app/pull/9)
