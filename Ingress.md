@@ -75,3 +75,8 @@ subcomponents:
 The Helm chart in the _ingress-deploy-strategy_ repository will use conditional logic to determin with Kubernetes object defintions get generated based upon the `config/common.yaml`.
 
 One caveat about the current deisgn is that that the "blue" (existing) or the stable (as opposed to canary) would be defined in the _custom-microservice_ defintion. The _ingress-deploy-strategy_ chart would need to somehow retreive a config value outside of it's own Fabrikate subcomponent config section. 
+
+# Links
+
++ [Traefik Blue/Green Implementation](https://github.com/andrebriggs/fabrikate-sample-app/blob/traefik_bg/Traefik.bg.README.md)
++ [Istion Blug/Green Implementation](https://github.com/andrebriggs/fabrikate-sample-app/pull/9)
