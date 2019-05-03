@@ -72,7 +72,7 @@ subcomponents:
       ...  
 </pre>
 
-The Helm chart in the _ingress-deploy-strategy_ repository will use conditional logic to determin with Kubernetes object defintions get generated based upon the `config/common.yaml`.
+The Helm chart in the _ingress-deploy-strategy_ repository will use conditional logic to determine which Kubernetes object defintions get generated based upon the `config/common.yaml`.
 
 One caveat about the current deisgn is that that the "blue" (existing) or the stable (as opposed to canary) would be defined in the _custom-microservice_ defintion. The _ingress-deploy-strategy_ chart would need to somehow retreive a config value outside of it's own Fabrikate subcomponent config section. 
 
