@@ -5,6 +5,6 @@ subcomponents:
 - name: services
   source: "./services"
 - name: "cloud-native"
-  source: "https://github.com/timfpark/fabrikate-cloud-native"
-  branch: "master"
+  source: "https://github.com/eladiw/fabrikate-cloud-native"
+  branch: "feature/update-jaeger"
   method: "git"
