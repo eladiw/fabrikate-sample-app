@@ -17,6 +17,10 @@ steps:
   env:
     BEDROCK_BUILD_SCRIPT: https://raw.githubusercontent.com/Microsoft/bedrock/master/gitops/azure-devops/build.sh
 
+- task: HelmInstaller@1
+  inputs:
+    helmVersionToInstall: '2.17.0' # 2.17.0 is the first version that uses the updated charts repositories
+
 - task: ShellScript@2
   displayName: Validate fabrikate definitions
   inputs:
